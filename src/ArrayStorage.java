@@ -35,7 +35,7 @@ public class ArrayStorage {
                 currentIndex = i;
             }
         }
-        System.arraycopy(storage, size() - currentIndex, storage, currentIndex, size - currentIndex);
+        System.arraycopy(storage, size - currentIndex, storage, currentIndex, size - currentIndex);
         size--;
     }
 
