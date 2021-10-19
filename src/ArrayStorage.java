@@ -8,19 +8,19 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
         size = 0;
     }
 
     void save(Resume r) {
-        storage[size()] = r;
+        storage[size] = r;
         size++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
@@ -30,12 +30,12 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         int currentIndex = 0;
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 currentIndex = i;
             }
         }
-        System.arraycopy(storage, size() - currentIndex, storage, currentIndex, size() - currentIndex);
+        System.arraycopy(storage, size() - currentIndex, storage, currentIndex, size - currentIndex);
         size--;
     }
 
@@ -44,7 +44,7 @@ public class ArrayStorage {
      */
 
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
