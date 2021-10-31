@@ -10,6 +10,8 @@ import java.util.Arrays;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size;
+    private Resume currentResume;
+    private int currentIndex;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -25,35 +27,21 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         if (isPresent(uuid, "gotten")) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    return storage[i];
-                }
-            }
+            return currentResume;
         }
         return null;
     }
 
     public void delete(String uuid) {
         if (isPresent(uuid, "deleted")) {
-            int currentIndex = -1;
-            for (int i = 0; i < size; i++) {
-                if (storage[i].toString().equals(uuid)) {
-                    currentIndex = i;
-                }
-            }
-            System.arraycopy(storage, size - currentIndex, storage, currentIndex, size - currentIndex);
+            System.arraycopy(storage, size - 1 - currentIndex, storage, currentIndex, size - 1 - currentIndex);
             size--;
         }
     }
 
     public void update(Resume r) {
         if (isPresent(r.getUuid(), "updated")) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i] == r) {
-                    storage[i] = r;
-                }
-            }
+            storage[currentIndex] = r;
         }
     }
 
@@ -70,9 +58,12 @@ public class ArrayStorage {
     }
 
     public boolean isPresent(String uuid, String operation) {
+        currentIndex = -1;
         boolean check = false;
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
+                currentResume = storage[i];
+                currentIndex = i;
                 check = true;
                 break;
             }
