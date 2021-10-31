@@ -34,8 +34,10 @@ public class ArrayStorage {
 
     public void delete(String uuid) {
         if (isPresent(uuid, "deleted")) {
-            System.arraycopy(storage, size - 1 - currentIndex, storage, currentIndex, size - 1 - currentIndex);
-            size--;
+            if (currentIndex >= 0) {
+                System.arraycopy(storage, currentIndex + 1, storage, currentIndex, size - 1);
+                size--;
+            }
         }
     }
 
