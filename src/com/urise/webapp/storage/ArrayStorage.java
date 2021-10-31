@@ -8,9 +8,8 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[3];
     private int size;
-    private Resume currentResume;
     private int currentIndex;
 
     public void clear() {
@@ -27,15 +26,19 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         if (isPresent(uuid, "gotten")) {
-            return currentResume;
+            return storage[currentIndex];
         }
         return null;
     }
 
     public void delete(String uuid) {
         if (isPresent(uuid, "deleted")) {
+            if (currentIndex + 1 < storage.length) {
                 System.arraycopy(storage, currentIndex + 1, storage, currentIndex, size - 1);
-                size--;
+            } else {
+                storage[currentIndex] = null;
+            }
+            size--;
         }
     }
 
@@ -57,11 +60,10 @@ public class ArrayStorage {
         return size;
     }
 
-    public boolean isPresent(String uuid, String operation) {
+    private boolean isPresent(String uuid, String operation) {
         boolean check = false;
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                currentResume = storage[i];
                 currentIndex = i;
                 check = true;
                 break;
@@ -76,11 +78,10 @@ public class ArrayStorage {
     }
 
     private boolean isFull() {
-        boolean check = false;
         if (size == storage.length) {
-            check = true;
             System.out.println("ATTENTION: the database is full");
+            return true;
         }
-        return check;
+        return false;
     }
 }
