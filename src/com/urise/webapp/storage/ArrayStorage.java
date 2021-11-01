@@ -25,7 +25,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        return (isPresent(uuid, "gotten")) ? storage[currentIndex] : null;
+        return isPresent(uuid, "gotten") ? storage[currentIndex] : null;
     }
 
     public void delete(String uuid) {
@@ -62,10 +62,9 @@ public class ArrayStorage {
                 currentIndex = i;
                 System.out.println("The resume to be " + operation + " has already been added to current database");
                 return true;
-            } else {
-                System.out.println("The resume to be " + operation + " is not found in current database");
             }
         }
+        System.out.println("The resume to be " + operation + " is not found in current database");
         return false;
     }
 
