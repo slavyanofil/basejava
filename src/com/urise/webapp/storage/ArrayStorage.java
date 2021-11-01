@@ -25,10 +25,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (isPresent(uuid, "gotten")) {
-            return storage[currentIndex];
-        }
-        return null;
+        return (isPresent(uuid, "gotten")) ? storage[currentIndex] : null;
     }
 
     public void delete(String uuid) {
@@ -51,7 +48,6 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
@@ -61,20 +57,16 @@ public class ArrayStorage {
     }
 
     private boolean isPresent(String uuid, String operation) {
-        boolean check = false;
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 currentIndex = i;
-                check = true;
-                break;
+                System.out.println("The resume to be " + operation + " has already been added to current database");
+                return true;
+            } else {
+                System.out.println("The resume to be " + operation + " is not found in current database");
             }
         }
-        if (!check) {
-            System.out.println("The resume to be " + operation + " is not found in current database");
-        } else {
-            System.out.println("The resume to be " + operation + " has already been added to current database");
-        }
-        return check;
+        return false;
     }
 
     private boolean isFull() {
