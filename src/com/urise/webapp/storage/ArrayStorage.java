@@ -17,4 +17,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         System.out.println("The resume to be " + operation + " is not found in current database");
         return false;
     }
+
+    @Override
+    protected void sort() {
+    }
 }

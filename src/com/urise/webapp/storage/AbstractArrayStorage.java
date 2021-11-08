@@ -13,19 +13,20 @@ public abstract class AbstractArrayStorage implements Storage {
     protected int size;
     protected int currentIndex;
 
-    public void save(Resume r) {
+    public final void save(Resume r) {
         if (!isPresent(r.getUuid(), "saved") && !isFull()) {
             storage[size] = r;
             size++;
         }
+        sort();
     }
 
-    public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         if (isPresent(uuid, "deleted")) {
             if (currentIndex + 1 < storage.length) {
                 System.arraycopy(storage, currentIndex + 1, storage, currentIndex, size - 1);
@@ -36,30 +37,33 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void update(Resume r) {
+    public final void update(Resume r) {
         if (isPresent(r.getUuid(), "updated")) {
             storage[currentIndex] = r;
         }
+        sort();
     }
 
-    public int size() {
+    protected abstract void sort();
+
+    public final int size() {
         return size;
     }
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         return isPresent(uuid, "gotten") ? storage[currentIndex] : null;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
     protected abstract boolean isPresent(String uuid, String message);
 
-    protected boolean isFull() {
+    protected final boolean isFull() {
         if (size == STORAGE_LIMIT) {
             System.out.println("ATTENTION: the database is full");
             return true;

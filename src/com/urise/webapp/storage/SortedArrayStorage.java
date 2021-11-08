@@ -7,18 +7,6 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        super.save(r);
-        sort();
-    }
-
-    @Override
-    public void update(Resume r) {
-        super.update(r);
-        sort();
-    }
-
-    @Override
     protected boolean isPresent(String uuid, String operation) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
@@ -31,7 +19,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         return false;
     }
 
-    private void sort() {
+    @Override
+    protected void sort() {
         for (int i = 1; i < size; i++) {
             Resume currentResume = storage[i];
             int index = Arrays.binarySearch(storage, 0, i, currentResume);
