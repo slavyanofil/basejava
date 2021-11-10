@@ -11,14 +11,28 @@ public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 100000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
-    protected int currentIndex;
 
     public final void save(Resume r) {
-        if (!isPresent(r.getUuid(), "saved") && !isFull()) {
-            storage[size] = r;
-            size++;
+        if (!isFull()) {
+            int index = getIndex(r.getUuid());
+            if (index < 0) {
+                insert(r);
+                size++;
+                System.out.println("Resume " + r.getUuid() + " has been saved");
+            } else {
+                System.out.println("Resume " + r.getUuid() + " exists");
+            }
         }
-        sort();
+    }
+
+    protected abstract void insert(Resume r);
+
+    private boolean isFull() {
+        if (size == STORAGE_LIMIT) {
+            System.out.println("ATTENTION: the database is full");
+            return true;
+        }
+        return false;
     }
 
     public final void clear() {
@@ -27,31 +41,39 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public final void delete(String uuid) {
-        if (isPresent(uuid, "deleted")) {
-            if (currentIndex + 1 < storage.length) {
-                System.arraycopy(storage, currentIndex + 1, storage, currentIndex, size - 1);
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " doesn't exist");
+        } else {
+            if (index + 1 < STORAGE_LIMIT) {
+                System.arraycopy(storage, index + 1, storage, index, size - 1);
             } else {
-                storage[currentIndex] = null;
+                storage[index] = null;
             }
             size--;
         }
     }
 
     public final void update(Resume r) {
-        if (isPresent(r.getUuid(), "updated")) {
-            storage[currentIndex] = r;
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
+            System.out.println("Resume " + r.getUuid() + " doesn't exist");
+        } else {
+            storage[index] = r;
         }
-        sort();
     }
-
-    protected abstract void sort();
 
     public final int size() {
         return size;
     }
 
     public final Resume get(String uuid) {
-        return isPresent(uuid, "gotten") ? storage[currentIndex] : null;
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " doesn't exist");
+            return null;
+        }
+        return storage[index];
     }
 
     /**
@@ -61,13 +83,5 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOf(storage, size);
     }
 
-    protected abstract boolean isPresent(String uuid, String message);
-
-    protected final boolean isFull() {
-        if (size == STORAGE_LIMIT) {
-            System.out.println("ATTENTION: the database is full");
-            return true;
-        }
-        return false;
-    }
+    protected abstract int getIndex(String uuid);
 }

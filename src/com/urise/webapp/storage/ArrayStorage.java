@@ -1,24 +1,24 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected boolean isPresent(String uuid, String operation) {
+    protected int getIndex(String uuid){
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                currentIndex = i;
-                System.out.println("The resume to be " + operation + " has already been added to current database");
-                return true;
+                return i;
             }
         }
-        System.out.println("The resume to be " + operation + " is not found in current database");
-        return false;
+        return -1;
     }
 
     @Override
-    protected void sort() {
+    protected void insert(Resume r) {
+        storage[size] = r;
     }
 }

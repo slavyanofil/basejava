@@ -7,28 +7,20 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected boolean isPresent(String uuid, String operation) {
+    protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
-        currentIndex = Arrays.binarySearch(storage, 0, size, searchKey);
-        if (currentIndex >= 0) {
-            System.out.println("The resume to be " + operation + " has already been added to current database");
-            return true;
-        }
-        System.out.println("The resume to be " + operation + " is not found in current database");
-        return false;
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    protected void sort() {
-        for (int i = 1; i < size; i++) {
-            Resume currentResume = storage[i];
-            int index = Arrays.binarySearch(storage, 0, i, currentResume);
-            if (index < 0) {
-                index = -index - 1;
-            }
-            System.arraycopy(storage, index, storage, index + 1, i - index);
-            storage[index] = currentResume;
+    protected void insert(Resume r) {
+        int insertionPoint = -Arrays.binarySearch(storage, 0, size, r) - 1;
+        if (insertionPoint < 0 || insertionPoint + 2 == STORAGE_LIMIT) {
+            storage[size] = r;
+        } else {
+            System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size + 1 - insertionPoint);
+            storage[insertionPoint] = r;
         }
     }
 }
