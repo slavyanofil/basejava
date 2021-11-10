@@ -25,8 +25,6 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    protected abstract void insert(Resume r);
-
     private boolean isFull() {
         if (size == STORAGE_LIMIT) {
             System.out.println("ATTENTION: the database is full");
@@ -34,6 +32,8 @@ public abstract class AbstractArrayStorage implements Storage {
         }
         return false;
     }
+
+    protected abstract void insert(Resume r);
 
     public final void clear() {
         Arrays.fill(storage, 0, size, null);
