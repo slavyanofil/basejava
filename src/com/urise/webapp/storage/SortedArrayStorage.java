@@ -16,10 +16,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void insert(Resume r) {
         int insertionPoint = -Arrays.binarySearch(storage, 0, size, r) - 1;
-        if (insertionPoint < 0 || insertionPoint + 2 == STORAGE_LIMIT) {
+        if (insertionPoint == size) {
             storage[size] = r;
         } else {
-            System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size + 1 - insertionPoint);
+            System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
             storage[insertionPoint] = r;
         }
     }
