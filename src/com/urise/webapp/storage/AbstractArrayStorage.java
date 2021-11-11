@@ -44,12 +44,14 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index < 0) {
             System.out.println("Resume " + uuid + " doesn't exist");
-        } else if (index + 1 < STORAGE_LIMIT) {
-            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         } else {
-            storage[index] = null;
+            if (index + 1 < STORAGE_LIMIT) {
+                System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+            } else {
+                storage[index] = null;
+            }
+            size--;
         }
-        size--;
     }
 
     public final void update(Resume r) {
