@@ -13,8 +13,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insert(Resume r) {
-        int insertionPoint = -Arrays.binarySearch(storage, 0, size, r) - 1;
+    protected void insert(int index, Resume r) {
+        int insertionPoint = -index - 1;
         if (insertionPoint == size) {
             storage[size] = r;
         } else {
