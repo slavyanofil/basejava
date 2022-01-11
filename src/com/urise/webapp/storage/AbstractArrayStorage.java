@@ -18,13 +18,12 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         if (!isFull()) {
             int index = getIndex(r.getUuid());
-            if (index < 0) {
-                insert(index, r);
-                size++;
-                System.out.println("Resume " + r.getUuid() + " has been saved");
-            } else {
+            if (index >= 0) {
                 throw new ExistStorageException(r.getUuid());
             }
+            insert(index, r);
+            size++;
+            System.out.println("Resume " + r.getUuid() + " has been saved");
         }
     }
 
@@ -59,9 +58,8 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
         if (index < 0) {
             throw new NotExistStorageException(r.getUuid());
-        } else {
-            storage[index] = r;
         }
+        storage[index] = r;
     }
 
     public final int size() {
