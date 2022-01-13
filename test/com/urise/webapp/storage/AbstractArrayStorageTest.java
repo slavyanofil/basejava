@@ -8,8 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
@@ -76,8 +75,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void update() {
-        storage.update(RESUME_1);
-        assertEquals(RESUME_1, storage.get(UUID_1));
+        Resume r = new Resume(UUID_1);
+        storage.update(r);
+        assertSame(r, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
