@@ -3,10 +3,14 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    List<Resume> storage = new ArrayList<>();
+    ArrayList<Resume> storage = new ArrayList<>();
+
+    @Override
+    protected boolean isFull() {
+        return false;
+    }
 
     @Override
     protected int getIndex(String uuid) {
@@ -19,8 +23,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void empty() {
+    public final void clear() {
         storage.clear();
+        size = 0;
+        System.out.println("Database is empty");
     }
 
     @Override
@@ -34,12 +40,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void refresh (int index, Resume r) {
+    protected void refresh(int index, Resume r) {
         storage.set(index, r);
     }
 
     @Override
-    protected Resume getResume (int index) {
+    protected Resume getResume(int index) {
         return storage.get(index);
     }
 

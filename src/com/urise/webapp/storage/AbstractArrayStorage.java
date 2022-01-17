@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.OverflowException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -9,9 +10,22 @@ import java.util.Arrays;
  */
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
+    protected static final int STORAGE_LIMIT = 10000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+
     @Override
-    public void empty() {
+    protected boolean isFull() {
+        if (size == STORAGE_LIMIT) {
+            throw new OverflowException("Database is full");
+        }
+        return false;
+    }
+
+    @Override
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
+        size = 0;
+        System.out.println("Database is empty");
     }
 
     @Override
