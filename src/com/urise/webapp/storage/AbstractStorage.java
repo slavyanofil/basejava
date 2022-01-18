@@ -6,21 +6,14 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected int size;
-
     public final void save(Resume r) {
-        if (!isFull()) {
-            int index = getIndex(r.getUuid());
-            if (index >= 0) {
-                throw new ExistStorageException(r.getUuid());
-            }
-            insert(index, r);
-            size++;
-            System.out.println("Resume " + r.getUuid() + " has been saved");
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            throw new ExistStorageException(r.getUuid());
         }
+        insert(index, r);
+        System.out.println("Resume " + r.getUuid() + " has been saved");
     }
-
-    protected abstract boolean isFull();
 
     protected abstract void insert(int index, Resume r);
 
@@ -30,7 +23,6 @@ public abstract class AbstractStorage implements Storage {
             throw new NotExistStorageException(uuid);
         }
         remove(index);
-        size--;
     }
 
     protected abstract void remove(int index);
@@ -45,10 +37,6 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void refresh(int index, Resume r);
 
-    public final int size() {
-        return size;
-    }
-
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -58,15 +46,6 @@ public abstract class AbstractStorage implements Storage {
     }
 
     protected abstract Resume getResume(int index);
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public final Resume[] getAll() {
-        return getAllResumes();
-    }
-
-    protected abstract Resume[] getAllResumes();
 
     protected abstract int getIndex(String uuid);
 }

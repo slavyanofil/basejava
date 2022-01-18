@@ -19,6 +19,9 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insert(int index, Resume r) {
-        storage[size] = r;
+        if (!isFull()) {
+            storage[size] = r;
+            size++;
+        }
     }
 }

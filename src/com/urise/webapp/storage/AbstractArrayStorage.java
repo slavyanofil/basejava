@@ -12,8 +12,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size;
 
-    @Override
     protected boolean isFull() {
         if (size == STORAGE_LIMIT) {
             throw new OverflowException("Database is full");
@@ -35,6 +35,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         } else {
             storage[index] = null;
         }
+        size--;
     }
 
     @Override
@@ -48,7 +49,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] getAllResumes() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
+    }
+
+    @Override
+    public final int size() {
+        return size;
     }
 }
