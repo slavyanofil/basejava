@@ -10,8 +10,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        Resume r = new Resume(uuid);
-        return storage.indexOf(r);
+        return storage.indexOf(new Resume(uuid));
     }
 
     @Override
@@ -27,7 +26,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void remove(int index) {
-        storage.remove(storage.get(index));
+        storage.remove(index);
     }
 
     @Override

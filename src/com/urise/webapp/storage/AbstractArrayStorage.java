@@ -14,7 +14,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    protected boolean isFull() {
+    @Override
+    protected void insert(int index, Resume r){
+        if (!isFull()) {
+            paste(index, r);
+            size++;
+        }
+    }
+
+    protected abstract void paste(int index, Resume r);
+
+    private boolean isFull() {
         if (size == STORAGE_LIMIT) {
             throw new OverflowException("Database is full");
         }
