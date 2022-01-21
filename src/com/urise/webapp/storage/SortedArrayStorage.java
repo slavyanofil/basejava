@@ -14,12 +14,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void paste(int index, Resume r) {
-            int insertionPoint = -index - 1;
-            if (insertionPoint == size) {
-                storage[size] = r;
-            } else {
-                System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
-                storage[insertionPoint] = r;
-            }
-        }
+        int insertionPoint = -index - 1;
+        System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
+        storage[insertionPoint] = r;
+    }
 }
