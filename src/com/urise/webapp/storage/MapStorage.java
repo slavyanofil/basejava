@@ -31,9 +31,9 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        for (Map.Entry entry : storage.entrySet()) {
+        for (Map.Entry<Integer, Resume> entry : storage.entrySet()) {
             if (Objects.equals(entry.getValue(), new Resume(uuid))) {
-                return (int) entry.getKey();
+                return entry.getKey();
             }
         }
         return -1;

@@ -7,45 +7,45 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public final void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        }
-        insert(index, r);
+        insert(getNotExistIndex(r.getUuid()), r);
         System.out.println("Resume " + r.getUuid() + " has been saved");
     }
 
     protected abstract void insert(int index, Resume r);
 
     public final void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        remove(index);
+        remove(getExistIndex(uuid));
     }
 
     protected abstract void remove(int index);
 
     public final void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        refresh(index, r);
+        refresh(getExistIndex(r.getUuid()), r);
     }
 
     protected abstract void refresh(int index, Resume r);
 
     public final Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return getResume(index);
+        return getResume(getExistIndex(uuid));
     }
 
     protected abstract Resume getResume(int index);
 
     protected abstract int getIndex(String uuid);
+
+    private int getExistIndex(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return index;
+    }
+
+    private int getNotExistIndex(String uuid) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return index;
+    }
 }

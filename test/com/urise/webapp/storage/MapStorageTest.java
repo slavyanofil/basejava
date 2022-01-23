@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MapStorageTest extends AbstractStorageTest {
@@ -10,7 +11,7 @@ public class MapStorageTest extends AbstractStorageTest {
 
     @Override
     @Test
+    @Ignore
     public void saveOverflow() {
-        System.out.println("Overflow is impossible");
     }
 }
