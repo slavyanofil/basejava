@@ -2,21 +2,24 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.OverflowException;
 import com.urise.webapp.model.Resume;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_1 = new Resume("uuid1");
-    private static final Resume RESUME_2 = new Resume("uuid2");
-    private static final Resume RESUME_3 = new Resume("uuid3");
+    private static final Resume RESUME_1 = new Resume("uuid1", "User2");
+    private static final Resume RESUME_2 = new Resume("uuid2", "User1");
+    private static final Resume RESUME_3 = new Resume("uuid3", "User3");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -32,7 +35,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume r = new Resume(UUID_4);
+        Resume r = new Resume(UUID_4, "User4");
         storage.save(r);
         assertEquals(4, storage.size());
         assertEquals(r, storage.get(UUID_4));
@@ -41,18 +44,6 @@ public abstract class AbstractStorageTest {
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(RESUME_1);
-    }
-
-    @Test(expected = OverflowException.class)
-    public void saveOverflow() {
-        try {
-            for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (Exception e) {
-            Assert.fail("Overflow is ahead of time");
-        }
-        storage.save(new Resume());
     }
 
     @Test
@@ -75,14 +66,14 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume r = new Resume(UUID_1);
+        Resume r = new Resume(UUID_1, "Updated user");
         storage.update(r);
         assertSame(r, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void notExistUpdate() {
-        storage.update(new Resume());
+        storage.update(new Resume("dummy"));
     }
 
     @Test
@@ -101,8 +92,10 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] expectedResult = {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(expectedResult, storage.getAll());
+    public void getAllSorted() {
+        List<Resume> comporatedList = storage.getAllSorted();
+        List<Resume> comparabledList = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        Collections.sort(comparabledList);
+        assertEquals(comparabledList, comporatedList);
     }
 }

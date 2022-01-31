@@ -4,6 +4,7 @@ import com.urise.webapp.exception.OverflowException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -15,14 +16,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size;
 
     @Override
-    protected void insert(int index, Resume r){
+    protected void insert(Object searchKey, Resume r) {
         if (!isFull()) {
-            paste(index, r);
+            paste(searchKey, r);
             size++;
         }
     }
 
-    protected abstract void paste(int index, Resume r);
+    protected abstract void paste(Object index, Resume r);
 
     private boolean isFull() {
         if (size == STORAGE_LIMIT) {
@@ -39,32 +40,37 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void remove(int index) {
-        if (index + 1 < STORAGE_LIMIT) {
-            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+    protected void remove(Object searchKey) {
+        if ((Integer)searchKey + 1 < STORAGE_LIMIT) {
+            System.arraycopy(storage, (Integer)searchKey + 1, storage, (Integer)searchKey, size - 1 - (Integer)searchKey);
         } else {
-            storage[index] = null;
+            storage[(Integer)searchKey] = null;
         }
         size--;
     }
 
     @Override
-    protected void refresh(int index, Resume r) {
-        storage[index] = r;
+        protected void refresh(Object searchKey, Resume r) {
+        storage[(Integer)searchKey] = r;
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage[index];
+        protected Resume getResume(Object searchKey) {
+        return storage[(Integer)searchKey];
     }
 
     @Override
-    public final Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    protected final List<Resume> getList() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override
     public final int size() {
         return size;
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 }
