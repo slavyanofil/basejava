@@ -4,14 +4,13 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Collections;
 import java.util.List;
-
-import static java.util.Comparator.comparing;
 
 public abstract class AbstractStorage implements Storage {
 
     public final void save(Resume r) {
-        insert(getNotExistIndex(r.getUuid()), r);
+        insert(getNotExistSearchKey(r.getUuid()), r);
         System.out.println("Resume " + r.getUuid() + " has been saved");
     }
 
@@ -35,7 +34,7 @@ public abstract class AbstractStorage implements Storage {
 
     public final List<Resume> getAllSorted() {
         List<Resume> list = getList();
-        list.sort(comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        Collections.sort(list);
         return list;
     }
 
@@ -53,7 +52,7 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    private Object getNotExistIndex(String uuid) {
+    private Object getNotExistSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
