@@ -18,7 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void paste(Object searchKey, Resume r) {
+    protected void paste(Integer searchKey, Resume r) {
         storage[size] = r;
     }
 }

@@ -9,21 +9,21 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
     @Override
-    protected void insert(Object searchKey, Resume r) {
+    protected void insert(Integer searchKey, Resume r) {
         if (!isFull()) {
             paste(searchKey, r);
             size++;
         }
     }
 
-    protected abstract void paste(Object index, Resume r);
+    protected abstract void paste(Integer index, Resume r);
 
     private boolean isFull() {
         if (size == STORAGE_LIMIT) {
@@ -40,23 +40,23 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void remove(Object searchKey) {
-        if ((Integer)searchKey + 1 < STORAGE_LIMIT) {
-            System.arraycopy(storage, (Integer)searchKey + 1, storage, (Integer)searchKey, size - 1 - (Integer)searchKey);
+    protected void remove(Integer searchKey) {
+        if (searchKey + 1 < STORAGE_LIMIT) {
+            System.arraycopy(storage, searchKey + 1, storage, searchKey, size - 1 - searchKey);
         } else {
-            storage[(Integer)searchKey] = null;
+            storage[searchKey] = null;
         }
         size--;
     }
 
     @Override
-        protected void refresh(Object searchKey, Resume r) {
-        storage[(Integer)searchKey] = r;
+    protected void refresh(Integer searchKey, Resume r) {
+        storage[searchKey] = r;
     }
 
     @Override
-        protected Resume getResume(Object searchKey) {
-        return storage[(Integer)searchKey];
+    protected Resume getResume(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
@@ -70,7 +70,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 }
