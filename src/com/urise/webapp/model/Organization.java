@@ -1,9 +1,8 @@
 package com.urise.webapp.model;
 
 import java.util.List;
-import java.util.StringJoiner;
 
-public class Organization extends Section {
+public class Organization extends AbstractSection {
     private final List<Experience> experiences;
 
     public Organization(List<Experience> experiences) {
@@ -12,8 +11,10 @@ public class Organization extends Section {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner("\n" + "");
-        experiences.forEach(item -> joiner.add(item.toString()));
-        return joiner.toString().replaceAll("[\\[\\]]", "").replaceAll("\n,", "\n");
+        StringBuilder sb = new StringBuilder();
+        for (Experience experience : experiences) {
+            sb.append("\n").append(experience.toString());
+        }
+        return sb.toString();
     }
 }

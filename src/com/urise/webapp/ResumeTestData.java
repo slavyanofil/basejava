@@ -124,8 +124,8 @@ public class ResumeTestData {
                 "по Java Web и Enterprise технологиям"));
         resume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, " +
                 "креативность, инициативность. Пурист кода и архитектуры."));
-        resume.addSection(SectionType.ACHIEVEMENT, new ButtonSection(achievements));
-        resume.addSection(SectionType.QUALIFICATIONS, new ButtonSection(qualifications));
+        resume.addSection(SectionType.ACHIEVEMENT, new BulletedListSection(achievements));
+        resume.addSection(SectionType.QUALIFICATIONS, new BulletedListSection(qualifications));
         resume.addSection(SectionType.EXPERIENCE, new Organization(experiences));
         resume.addSection(SectionType.EDUCATION, new Organization(education));
 
