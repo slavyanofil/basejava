@@ -18,7 +18,7 @@ public class Experience {
 
     @Override
     public String toString() {
-        return "\n" + name + " " + link + " \n" + positions;
+        return "\n" + name + " " + link + " \n" + positions.toString().replaceAll("[\\[\\]]","");
     }
 
     @Override

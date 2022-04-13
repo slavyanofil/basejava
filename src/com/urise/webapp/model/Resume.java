@@ -1,6 +1,8 @@
 package com.urise.webapp.model;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Initial resume class

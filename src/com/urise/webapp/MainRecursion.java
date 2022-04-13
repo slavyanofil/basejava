@@ -18,13 +18,12 @@ public class MainRecursion {
                 } else {
                     System.out.println();
                 }
-
                 for (File file : list) {
                     printFilesList(file);
                 }
-            } else {
-                System.out.println(dir.getName());
             }
+        } else {
+            System.out.println(dir.getName());
         }
     }
 }

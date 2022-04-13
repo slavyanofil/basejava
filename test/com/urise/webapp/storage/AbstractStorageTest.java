@@ -14,12 +14,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    protected Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_4 = "uuid4";
     private static final Resume RESUME_1 = createResume("uuid1", "User2");
     private static final Resume RESUME_2 = createResume("uuid2", "User1");
     private static final Resume RESUME_3 = createResume("uuid3", "User3");
+    protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -60,7 +60,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void notExistDelete() {
+    public void deleteNotExist() {
         storage.delete("not exist uuid");
     }
 
@@ -72,8 +72,8 @@ public abstract class AbstractStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void notExistUpdate() {
-        storage.update(createResume("dummy",null));
+    public void updateNotExist() {
+        storage.update(createResume("dummy", null));
     }
 
     @Test
@@ -94,6 +94,6 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> actualResumes = storage.getAllSorted();
-        assertEquals(actualResumes, Arrays.asList(RESUME_2, RESUME_1, RESUME_3));
+        assertEquals(Arrays.asList(RESUME_2, RESUME_1, RESUME_3), actualResumes);
     }
 }
