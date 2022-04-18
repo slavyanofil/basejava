@@ -5,13 +5,14 @@ import java.io.File;
 public class MainRecursion {
     public static void main(String[] args) {
 
-        printFilesList(new File("."));
+        printFilesList(new File("./src/com/urise/webapp"), "");
     }
 
-    private static void printFilesList(File dir) {
+    private static void printFilesList(File dir, String tab) {
         if (dir.isDirectory()) {
-            System.out.print(dir.getName());
+            System.out.print(tab + dir.getName());
             File[] list = dir.listFiles();
+            tab = tab + "-";
             if (list != null) {
                 if (list.length > 0) {
                     System.out.println("/");
@@ -19,11 +20,11 @@ public class MainRecursion {
                     System.out.println();
                 }
                 for (File file : list) {
-                    printFilesList(file);
+                    printFilesList(file, tab);
                 }
             }
         } else {
-            System.out.println(dir.getName());
+            System.out.println(tab + dir.getName());
         }
     }
 }
