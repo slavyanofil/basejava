@@ -41,11 +41,10 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void remove(Path path) {
         try {
-            Files.delete(path);
+            if (!Files.deleteIfExists(path))
+                System.out.println("Delete error");
         } catch (IOException e) {
-            if (Files.exists(path)) {
-                throw new StorageException("Delete error", getFileName(path), e);
-            }
+            throw new StorageException("Delete error", getFileName(path), e);
         }
     }
 

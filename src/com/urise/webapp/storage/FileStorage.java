@@ -36,9 +36,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void remove(File file) {
-        if (file.delete()) {
-            System.out.println(file.getName() + " deleted");
-        } else {
+        if (!file.delete()) {
             throw new StorageException("Delete error", file.getName());
         }
     }
