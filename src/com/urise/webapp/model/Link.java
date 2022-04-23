@@ -1,18 +1,26 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.NotNullAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String name;
-    private final String url;
+    private String name;
+    private String url;
+
+    public Link() {
+    }
 
     public Link(String name, String url) {
         Objects.requireNonNull(name, "name must not be null");
         this.name = name;
-        this.url = url;
+        this.url = new NotNullAdapter().ofString(url);
     }
 
     public String getName() {
@@ -25,7 +33,7 @@ public class Link implements Serializable {
 
     @Override
     public String toString() {
-        return "Link(" + name + ',' + url + ')';
+        return name + ',' + url;
     }
 
     @Override
@@ -45,4 +53,6 @@ public class Link implements Serializable {
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
     }
+
+
 }
