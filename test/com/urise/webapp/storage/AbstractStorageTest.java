@@ -3,12 +3,12 @@ package com.urise.webapp.storage;
 import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +25,7 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_1 = createResume(UUID_1, "User2");
     private static final Resume RESUME_2 = createResume(UUID_2, "User1");
     private static final Resume RESUME_3 = createResume(UUID_3, "User3");
+    private final List<String> achievements = new ArrayList<>();
     protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -39,6 +40,9 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_3);
         RESUME_1.addContact(ContactType.EMAIL, "ya@ya.ru");
         RESUME_1.addContact(ContactType.MOBILE, "800-555-5555");
+        achievements.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
+        achievements.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+        RESUME_1.addSection(SectionType.ACHIEVEMENT, new ListSection(achievements));
     }
 
     @Test
