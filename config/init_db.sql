@@ -43,5 +43,3 @@ create unique index section_uuid_type_index
     on section (resume_uuid, type);
 
 
-
-
