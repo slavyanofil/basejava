@@ -3,12 +3,11 @@ package com.urise.webapp.model;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ListSection extends AbstractSection {
-    private static final long serialVersionUID = 1L;
-
     public static final ListSection EMPTY = new ListSection("");
-
+    private static final long serialVersionUID = 1L;
     private List<String> items;
 
     public ListSection() {
@@ -24,7 +23,7 @@ public class ListSection extends AbstractSection {
     }
 
     public List<String> getItems() {
-        return items;
+        return items.stream().filter(item -> !item.equals("\r")).collect(Collectors.toList());
     }
 
     @Override

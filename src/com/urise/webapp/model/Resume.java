@@ -15,8 +15,8 @@ import java.util.UUID;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
-    private static final long serialVersionUID = 1L;
     public static final Resume EMPTY = new Resume();
+    private static final long serialVersionUID = 1L;
 
     static {
         EMPTY.addSection(SectionType.OBJECTIVE, TextSection.EMPTY);
