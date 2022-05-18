@@ -67,7 +67,7 @@
                                         <h3>${organization.homePage.url}</h3>
                                     </c:if>
                                     <c:if test="${!empty organization.homePage.url}">
-                                        <h3><a href="${organization.homePage.url}">${organization.homePage.url}</a></h3>
+                                        <h3><a href="${organization.homePage.url}">${organization.homePage.name}</a></h3>
                                     </c:if>
                                 </td>
                             </tr>
