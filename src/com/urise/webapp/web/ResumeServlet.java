@@ -97,7 +97,7 @@ public class ResumeServlet extends HttpServlet {
         final boolean isCreate = (uuid == null || uuid.length() == 0);
         Resume r;
         if (isCreate) {
-            r = new Resume(fullName);
+            r = new Resume(!HtmlUtil.isEmpty(fullName) ? fullName : "Кандидат без имени");
         } else {
             r = storage.get(uuid);
             r.setFullName(fullName);
