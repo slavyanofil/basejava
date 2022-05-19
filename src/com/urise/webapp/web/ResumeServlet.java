@@ -93,11 +93,12 @@ public class ResumeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
-        String fullName = request.getParameter("fullName");
+        String fullName = (request.getParameter("fullName"));
+//        String fullName = (request.getParameter("fullName").trim().equals("") ? "Кандидат без имени" : request.getParameter("fullName"));
         final boolean isCreate = (uuid == null || uuid.length() == 0);
         Resume r;
         if (isCreate) {
-            r = new Resume(!HtmlUtil.isEmpty(fullName) ? fullName : "Кандидат без имени");
+            r = new Resume(fullName);
         } else {
             r = storage.get(uuid);
             r.setFullName(fullName);
@@ -151,10 +152,12 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        if (isCreate) {
-            storage.save(r);
-        } else {
-            storage.update(r);
+        if (!HtmlUtil.isEmpty(fullName)) {
+            if (isCreate) {
+                storage.save(r);
+            } else {
+                storage.update(r);
+            }
         }
         response.sendRedirect("resume");
     }
